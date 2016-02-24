@@ -47,4 +47,4 @@ else
   export COQLIB="@hottdir@/coq"
   export HOTTLIB="@hottdir@/theories"
 fi
-#export COQ_ARGS=(-coqlib "$COQLIB" -R "$HOTTLIB" HoTT -indices-matter)
+#export COQ_ARGS=(-noinit -R "$HOTTLIB" HoTT -indices-matter)

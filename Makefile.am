@@ -97,7 +97,7 @@ CONTRIB_HTMLFILES=$(patsubst $(subst /,.,$(srcdir)).contrib.%,$(srcdir)/html/%,$
 CONTRIB_TIMING_HTMLFILES=$(patsubst $(srcdir)/html/%,$(srcdir)/timing-html/%,$(CONTRIB_HTMLFILES))
 
 # I'm not sure why we needs = rather than :=, but we seem to
-ALL_BUILT_HOTT_VFILES = $(STD_VFILES) $(CORE_VFILES) $(CATEGORY_VFILES)
+ALL_BUILT_HOTT_VFILES = $(CORE_VFILES) $(CATEGORY_VFILES)
 ALL_HOTT_VFILES = $(shell find "$(srcdir)/theories" -name "*.v") $(shell find "$(SRCCOQLIB)/theories" -name "*.v")
 UNBUILT_VFILES = $(filter-out $(ALL_BUILT_HOTT_VFILES),$(ALL_HOTT_VFILES))
 
@@ -120,8 +120,8 @@ MAIN_HTMLFILES = $(CORE_HTMLFILES) $(CATEGORY_HTMLFILES) $(CONTRIB_HTMLFILES)
 MAIN_TIMING_HTMLFILES = $(CORE_TIMING_HTMLFILES) $(CATEGORY_TIMING_HTMLFILES) $(CONTRIB_TIMING_HTMLFILES)
 MAIN_DPDFILES = $(CORE_DPDFILES) $(CATEGORY_DPDFILES)
 
-ALL_VFILES = $(STD_VFILES) $(MAIN_VFILES)
-ALL_VOFILES = $(STD_VOFILES) $(MAIN_VOFILES)
+ALL_VFILES = $(MAIN_VFILES)
+ALL_VOFILES = $(MAIN_VOFILES)
 ALL_GLOBFILES=$(STD_GLOBFILES) $(MAIN_GLOBFILES)
 ALL_DEPFILES=$(STD_DEPFILES) $(MAIN_DEPFILES)
 ALL_HTMLFILES=$(STD_HTMLFILES) $(MAIN_HTMLFILES)
@@ -154,7 +154,7 @@ all-am: Makefile $(SCRIPTS) $(DATA) _CoqProject
 
 .SECONDEXPANSION:
 
-.PHONY: stdlib hottlib hott-core hott-categories contrib clean html proviola timing-html clean-local install-data-local proviola-all proviola-xml svg-file-dep-graphs svg-aggregate-dep-graphs svg-dep-graphs clean-dpdgraph strict strict-test strict-no-axiom quick vi2vo checkproofs
+.PHONY: hottlib hott-core hott-categories contrib clean html proviola timing-html clean-local install-data-local proviola-all proviola-xml svg-file-dep-graphs svg-aggregate-dep-graphs svg-dep-graphs clean-dpdgraph strict strict-test strict-no-axiom quick vi2vo checkproofs
 
 # targets that we don't need to run coqdep for
 FAST_TARGETS = clean clean-local clean-dpdgraph TAGS
@@ -170,8 +170,6 @@ install-data-local:
 endif
 
 # The standard library files must be compiled in a special way
-stdlib: $(STD_VOFILES)
-
 quick:
 	$(MAKE) all VO=vi
 
@@ -214,9 +212,9 @@ strict-no-axiom: $(ALL_GLOBFILES)
 strict: strict-test strict-no-axiom hottlib hott-core hott-categories contrib
 
 # A rule for compiling the HoTT libary files
-$(MAIN_VFILES:.v=.vo) : %.vo : %.v $(STD_VOFILES) coq-HoTT
+$(MAIN_VFILES:.v=.vo) : %.vo : %.v coq-HoTT
 	$(VECHO) HOQC $*
-	$(Q) $(TIMER) ./etc/pipe_out.sh "$*.timing" $(HOQC) -time $<
+	$(Q) $(TIMER) ./etc/pipe_out.sh "$*.timing" $(HOQC) -noinit -coqlib /home/egallego/external/coq-git/ -time $<
 
 $(MAIN_VFILES:.v=.vi) : %.vi : %.v $(STD_VOFILES) coq-HoTT
 	$(VECHO) HOQC -quick $*

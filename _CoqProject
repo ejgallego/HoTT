@@ -1,4 +1,4 @@
--R theories HoTT
+-arg "-noinit -indices-matter" -R theories HoTT
 COQC = hoqc
 
 theories/Basics/Notations.v

@@ -1,5 +1,7 @@
 (* -*- mode: coq; mode: visual-line -*-  *)
 
+Require Export Notations.
+
 (** * Basic definitions of homotopy type theory, particularly the groupoid structure of identity types. *)
 
 (** ** Type classes *)
@@ -164,6 +166,9 @@ Hint Unfold composeD.
 
 Notation "g 'oD' f" := (composeD g f) (at level 40, left associativity) : function_scope.
 
+(** EG: I needed to add this, however we should be able to replace it.  *)
+
+
 (** ** The groupoid structure of identity types. *)
 
 (** The results in this file are used everywhere else, so we need to be extra careful about how we define and prove things.  We prefer hand-written terms, or at least tactics that allow us to retain clear control over the proof-term produced. *)
@@ -187,10 +192,11 @@ Notation "x = y" := (x = y :>_) : type_scope.
 
 (** Ensure [internal_paths_rew] and [internal_paths_rew_r] are defined outside sections, so they are not unnecessarily polymorphic. *)
 Lemma paths_rew A a y P (X : P a) (H : a = y :> A) : P y.
-Proof. rewrite <- H. exact X. Defined.
+Proof. Admitted.
+ (* rewrite <- H. exact X. Defined. *)
 
 Lemma paths_rew_r A a y P (X : P y) (H : a = y :> A) : P a.
-Proof. rewrite -> H. exact X. Defined.
+Proof. Admitted. (* rewrite -> H. exact X. Defined. *)
 
 Global Instance reflexive_paths {A} : Reflexive (@paths A) | 0 := @idpath A.
 Arguments reflexive_paths / .
@@ -476,7 +482,7 @@ Notation "2" := (1.+1) : trunc_scope.
 
 Fixpoint nat_to_trunc_index (n : nat) : trunc_index
   := match n with
-       | 0%nat => 0
+       | O => (trunc_S (trunc_S minus_two))
        | S n' => (nat_to_trunc_index n').+1
      end.
 
