@@ -7,4 +7,4 @@
 	url = https://github.com/JasonGross/coq-scripts.git
 [submodule "etc/coq-dpdgraph"]
 	path = etc/coq-dpdgraph
-	url = https://github.com/Karmaki/coq-dpdgraph.git
+	url = https://github.com/JasonGross/coq-dpdgraph.git
