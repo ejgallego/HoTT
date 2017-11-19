@@ -63,7 +63,7 @@ Qed.
 Lemma iso_leibnitz : forall P : Operations -> Type, P A -> P B.
 Proof.
 intros P;apply transport.
-exact iso_same_semirings@{V V}.
+first [exact iso_same_semirings|exact iso_same_semirings@{V V}].
 Qed.
 
 End contents.
@@ -131,7 +131,7 @@ Qed.
 Lemma iso_leibnitz : forall P : Operations -> Type, P A -> P B.
 Proof.
 intros P;apply transport.
-exact iso_same_rings@{V V}.
+first [exact iso_same_rings|exact iso_same_rings@{V V}].
 Qed.
 
 End contents.

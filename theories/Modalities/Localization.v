@@ -379,7 +379,9 @@ Module Localization_ReflectiveSubuniverses <: ReflectiveSubuniverses.
   : IsHProp (In@{u a i} O T).
   Proof.
     apply (@trunc_forall@{a i i} _); intros i.
-    apply ishprop_ooextendable@{a a i i i i i i i i i i}.
+    (* compat Coq before/after 8.8 *)
+    first [apply ishprop_ooextendable@{a a i i i i i i i i}|
+           apply ishprop_ooextendable@{a a i i i i i i i i i i}].
   Defined.
 
   Definition extendable_to_O
