@@ -531,7 +531,8 @@ Qed.
 
 (* Where are these universes even coming from? *)
 Instance Z_partial_order@{} : PartialOrder Zle
-  := Z_partial_order'@{Ularge Ularge Ularge Ularge Ularge}.
+  := ltac:(first [exact Z_partial_order'@{Ularge Ularge Ularge Ularge Ularge}|
+                  exact Z_partial_order']).
 
 Lemma Zle_cast_embedding' : OrderEmbedding (cast N Z).
 Proof.
@@ -543,7 +544,8 @@ split;red.
 Qed.
 
 Global Instance Zle_cast_embedding@{} : OrderEmbedding (cast N Z)
-  := Zle_cast_embedding'@{Ularge Ularge}.
+  := ltac:(first [exact Zle_cast_embedding'@{Ularge Ularge}|
+                  exact Zle_cast_embedding']).
 
 Lemma Zle_plus_preserving_l' : forall z : Z, OrderPreserving ((+) z).
 Proof.
@@ -559,7 +561,8 @@ apply (order_preserving _),E.
 Qed.
 
 Instance Zle_plus_preserving_l@{} : forall z : Z, OrderPreserving ((+) z)
-  := Zle_plus_preserving_l'@{Ularge Ularge}.
+  := ltac:(first [exact Zle_plus_preserving_l'@{Ularge Ularge}|
+                  exact Zle_plus_preserving_l']).
 
 Lemma Zmult_nonneg' : forall x y : Z, PropHolds (0 ≤ x) -> PropHolds (0 ≤ y) ->
   PropHolds (0 ≤ x * y).
@@ -578,7 +581,8 @@ Qed.
 
 Instance Zmult_nonneg@{} : forall x y : Z, PropHolds (0 ≤ x) -> PropHolds (0 ≤ y) ->
   PropHolds (0 ≤ x * y)
-  := Zmult_nonneg'@{Ularge Ularge Ularge}.
+  := ltac:(first [exact Zmult_nonneg'@{Ularge Ularge Ularge}|
+                  exact Zmult_nonneg']).
 
 Global Instance Z_order@{} : SemiRingOrder Zle.
 Proof. pose proof Z_ring; apply rings.from_ring_order; apply _. Qed.
@@ -608,7 +612,7 @@ Proof. unfold Zlt;exact _. Qed.
 Lemma Zlt_def' : forall a b, ' a < ' b = PairT.Tlt a b.
 Proof. reflexivity. Qed.
 
-Definition Zlt_def@{i} := Zlt_def'@{Uhuge i}.
+Definition Zlt_def@{i} := ltac:(first [exact Zlt_def'@{Uhuge i}|exact Zlt_def'@{i}]).
 
 Lemma Zlt_strict' : StrictOrder Zlt.
 Proof.
@@ -697,10 +701,11 @@ Global Instance Zapart@{} : Apart Z := fun x y => Zapart_hProp x y.
 Lemma Zapart_def' : forall a b, apart (' a) (' b) = PairT.Tapart a b.
 Proof. reflexivity. Qed.
 
+Definition Zapart_def@{i} := ltac:(first [exact Zapart_def'@{Uhuge i}|
+                                          exact Zapart_def'@{i}]).
+
 Global Instance ishprop_Zapart : is_mere_relation _ Zapart.
 Proof. unfold Zapart;exact _. Qed.
-
-Definition Zapart_def@{i} := Zapart_def'@{Uhuge i}.
 
 Lemma Z_trivial_apart' `{!TrivialApart N}
   : TrivialApart Z.
@@ -794,9 +799,10 @@ split;[apply _|split;try apply _|].
 Qed.
 
 Instance Z_full_psorder@{} : FullPseudoOrder Zle Zlt
-  := Z_full_psorder'@{
-    Ularge Ularge Ularge Ularge Ularge
-    Ularge Ularge Ularge Ularge Ularge}.
+  := ltac:(first [exact Z_full_psorder'@{Ularge Ularge Ularge Ularge Ularge
+                                                Ularge Ularge Ularge Ularge}|
+                  exact Z_full_psorder'@{Ularge Ularge Ularge Ularge Ularge
+                                         Ularge Ularge Ularge Ularge Ularge}]).
 
 Lemma Zmult_strong_ext_l' : forall z : Z, StrongExtensionality (z *.).
 Proof.

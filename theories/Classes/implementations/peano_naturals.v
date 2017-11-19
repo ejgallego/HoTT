@@ -531,7 +531,8 @@ split;[apply _|split|].
     destruct E;auto.
 Qed.
 
-Definition nat_full@{} := nat_full'@{Ularge Ularge N}.
+Definition nat_full@{} := ltac:(first[exact nat_full'@{Ularge Ularge}|
+                                      exact nat_full'@{Ularge Ularge N}]).
 Local Existing Instance nat_full.
 
 Instance S_embedding : OrderEmbedding S.
